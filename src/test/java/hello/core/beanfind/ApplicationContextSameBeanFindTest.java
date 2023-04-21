@@ -13,6 +13,9 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.Map;
 
+import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
+
 public class ApplicationContextSameBeanFindTest {
 
     AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext(SameBeanConfig.class);
@@ -21,14 +24,14 @@ public class ApplicationContextSameBeanFindTest {
     @DisplayName("타입으로 조회시 같은 타입이 둘 이상 있으면, 중복 오류가 발생한다")
     void findBeanByTypeDuplicate(){
 //        MemberRepository bean = ac.getBean(MemberRepository.class);
-        Assertions.assertThrows(NoUniqueBeanDefinitionException.class, ()-> ac.getBean(MemberRepository.class));
+        assertThrows(NoUniqueBeanDefinitionException.class, ()-> ac.getBean(MemberRepository.class));
     }
 
     @Test
     @DisplayName("타입으로 조회시 같은 타입이 둘 이상 있으면, 빈 이름을 지정하면 된다")
     void findBeanByName() {
         MemberRepository memberRepository = ac.getBean("memberRepository1", MemberRepository.class);
-        org.assertj.core.api.Assertions.assertThat(memberRepository).isInstanceOf(MemoryMemberRepository.class);
+        assertThat(memberRepository).isInstanceOf(MemoryMemberRepository.class);
     }
 
     @Test
@@ -39,7 +42,7 @@ public class ApplicationContextSameBeanFindTest {
             System.out.println("key = " + key + " value = " + beansOfType.get(key));
         }
         System.out.println("beansOfType = " + beansOfType);
-        org.assertj.core.api.Assertions.assertThat(beansOfType.size()).isEqualTo(2);
+        assertThat(beansOfType.size()).isEqualTo(2);
     }
 
     @Configuration
